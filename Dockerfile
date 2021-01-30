@@ -25,6 +25,7 @@ COPY configs/entrypoint.sh /entrypoint.sh
 RUN chmod +x /start.sh && chmod +x /entrypoint.sh
 
 ENV threads=4
+ENV UWSGI_SOCKET="127.0.0.1:29000"
 
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["/start.sh"]
