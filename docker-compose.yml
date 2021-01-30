@@ -1,0 +1,27 @@
+services:
+  webserver:
+    build: ./
+    ports:
+      - "8088:80"
+    networks:
+      - front
+      - db
+  postgres:
+    image: postgres:9.6-alpine
+    volumes:
+      - ./dbdata:/db
+    restart: always
+    networks:
+      - db
+    environment:
+      POSTGRES_PASSWORD: 'foobar'
+      POSTGRES_DB: 'django'
+      PGDATA: '/db'
+
+networks:
+  front:
+  db:
+    internal: true
+
+
+
