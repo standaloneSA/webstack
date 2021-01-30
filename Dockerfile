@@ -1,0 +1,32 @@
+FROM ubuntu:hirsute
+
+ARG DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get install -y \
+    libpcre3 \
+    libpcre3-dev \
+    python3 \
+    python3-pip \
+    nginx \
+    nginx-extras \
+    supervisor
+
+COPY requirements.txt /tmp
+COPY test1/ /django-home
+
+RUN pip install -r /tmp/requirements.txt && rm -f /tmp/requirements.txt
+
+COPY configs/uwsgi.ini /etc/uwsgi/
+COPY configs/supervisord.conf /etc/supervisor/conf.d/webserver.conf
+
+COPY configs/start.sh /start.sh
+COPY configs/entrypoint.sh /entrypoint.sh
+
+RUN chmod +x /start.sh && chmod +x /entrypoint.sh
+
+ENV threads=4
+
+ENTRYPOINT ["/entrypoint.sh"]
+CMD ["/start.sh"]
+
+
