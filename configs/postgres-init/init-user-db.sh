@@ -2,7 +2,6 @@
 
 # from 
 # https://github.com/matthewhegarty/rest-framework-tutorial/blob/postgres-permissions/docker/db/init-user-db.sh
-
 set -e
 SCHEMA=app_schema
 RW_ROLE=readwrite
@@ -14,10 +13,10 @@ echo "setting default roles"
 psql -v ON_ERROR_STOP=1 --dbname "$DB_NAME" <<-EOSQL
     -- lock down permissions on public schema
     -- this prevents any user from creating objects unless given permission
-    REVOKE CREATE ON SCHEMA public FROM PUBLIC;
+    -- ------REVOKE CREATE ON SCHEMA public FROM PUBLIC;
 
     -- Prevent *any* connection to the new database unless explicitly given
-    REVOKE ALL ON DATABASE $DB_NAME FROM PUBLIC;
+    -- ------REVOKE ALL ON DATABASE $DB_NAME FROM PUBLIC;
 
     -- Create Migrator role
     -- The user is allowed to create databases for the purposes of running the Django test suite.

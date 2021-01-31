@@ -6,6 +6,7 @@ RUN apt-get update && apt-get install -y \
     libpcre3 \
     libpcre3-dev \
     libpq-dev \
+    postgresql-client \
     python3 \
     python3-pip \
     nginx \

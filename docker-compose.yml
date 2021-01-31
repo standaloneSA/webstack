@@ -12,6 +12,7 @@ services:
       DB_PASS: djangopass
       DB_HOST: postgres
       DB_PORT: 5432
+      MIGRATOR_DB_USER: djangomigratoruser
       MIGRATOR_DB_PASS: djangomigratorpass
 
   postgres:
