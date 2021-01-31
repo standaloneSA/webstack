@@ -6,18 +6,31 @@ services:
     networks:
       - front
       - db
+    environment:
+      DB_NAME: django
+      DB_USERNAME: djangouser
+      DB_PASS: djangopass
+      DB_HOST: postgres
+      DB_PORT: 5432
+      MIGRATOR_DB_PASS: djangomigratorpass
+
   postgres:
     image: postgres:9.6-alpine
     volumes:
-      - ./dbdata:/db
+      - ./configs/postgres-init:/docker-entrypoint-initdb.d/
     restart: always
     networks:
       - db
     environment:
-      POSTGRES_PASSWORD: 'foobar'
-      POSTGRES_DB: 'django'
+      POSTGRES_PASSWORD: 'pgAdminPassword'
       PGDATA: '/db'
-
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: django
+      DB_USER: djangouser
+      DB_PASS: djangopass
+      MIGRATOR_DB_USER: djangomigratoruser
+      MIGRATOR_DB_PASS: djangomigratorpass
 networks:
   front:
   db:

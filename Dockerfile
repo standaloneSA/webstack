@@ -5,11 +5,14 @@ ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install -y \
     libpcre3 \
     libpcre3-dev \
+    libpq-dev \
     python3 \
     python3-pip \
     nginx \
     nginx-extras \
     supervisor
+
+RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 1
 
 COPY requirements.txt /tmp
 COPY test1/ /django-home
