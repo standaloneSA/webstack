@@ -32,14 +32,21 @@ else
 
   content_server='server {\n'
   content_server=$content_server"    listen ${USE_LISTEN_PORT};\n"
+  content_server=$content_server'    root /django-home/ ;\n'
   content_server=$content_server'    location /{\n'
   content_server=$content_server'        include uwsgi_params;\n'
   content_server=$content_server'        uwsgi_pass unix:///tmp/uwsgi.sock;\n'
+  content_server=$content_server'    }\n'
+  content_server=$content_server'    location /static {\n'
   content_server=$content_server'    }\n'
   content_server=$content_server'}\n'
 
   printf "$content_server" > /etc/nginx/conf.d/nginx.conf
 
   echo '' > /etc/nginx/conf.d/default.conf
+  echo '' > /etc/nginx/sites-available/default
 fi
+
+/django-home/manage.py collectstatic
+
 exec "$@"

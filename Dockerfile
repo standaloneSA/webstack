@@ -11,6 +11,7 @@ RUN apt-get update && apt-get install -y \
     python3-pip \
     nginx \
     nginx-extras \
+    vim-tiny \
     supervisor
 
 RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 1
