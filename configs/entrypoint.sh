@@ -47,6 +47,8 @@ else
   echo '' > /etc/nginx/sites-available/default
 fi
 
+/django-home/manage.py makemigrations
+/django-home/manage.py migrate
 /django-home/manage.py collectstatic
 
 exec "$@"
