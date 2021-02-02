@@ -20,7 +20,7 @@ def index(request):
   return render(request, 'polls/index.html', context)
 """
 
-Class IndexView(generic.ListView):
+class IndexView(generic.ListView):
   template_name = 'polls/index.html'
   context_object_name = 'latest_question_list'
 
@@ -34,9 +34,9 @@ def detail(request, question_id):
   return render(request, 'polls/details.html', {'question': question})
 """
 
-Class DetailView(generic.DetailView):
+class DetailView(generic.DetailView):
   model = Question
-  template_name = 'polls/detail.html'
+  template_name = 'polls/details.html'
 
 """
 def results(request, question_id):
@@ -44,13 +44,16 @@ def results(request, question_id):
   return render(request, 'polls/results.html', {'question': question})
 """
 
-Class ResultsView(generic.DetailView):
+class ResultsView(generic.DetailView):
   model = Question
-  template_name = 'polls/detail.html'
+  template_name = 'polls/results.html'
 
 
 def vote(request, question_id):
   question = get_object_or_404(Question, pk=question_id)
+  logger.error(str(request.POST))
+  print(request.POST)
+
   try:
     selected_choice = question.choice_set.get(pk=request.POST['choice'])
   except (KeyError, Choice.DoesNotExist):
@@ -61,6 +64,6 @@ def vote(request, question_id):
   else:
     selected_choice.votes += 1
     selected_choice.save()
-    return HttpResponseRedirect(reverse('polls:vote', args=(question.id)))
+    return HttpResponseRedirect(reverse('polls:results', args=([question.id])))
 
 
